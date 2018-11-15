@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="drawSC.js"></script>
+	<link rel="stylesheet" type="text/css" href="styleSC.css">
+</head>
+<body>
+
+<canvas id="chart" onmousemove="showCoords(event)" onmouseout="clearCoor()"></canvas>
+
+
+
+<div id="sidebar">
+	<ul id="menu">
+		<li id="about"><a href="#"><img id="im1" src="img/bulb1.png" style="width: 50px;"></a>
+		<div class="three_column_layout">
+			<div class="col_3">
+				<h2>ABOUT</h2>
+				
+				<p>1. Move the mouse around the chart</p>
+				<p>2. click anwhere inside the chart to see the corresponding circles</p>
+				<p>3. You can toggle between Impedance and Admittance charts</p>
+				<p>4. Enter Load and Characteristic impedances to calculate VSWR and Reflection Coeffecients. You can plot the VSWR circles</p>
+				<p>5. Plot input impedance for a range of frequencies.Enter all the Resistive values in ohms, C in pF and L in nH. Load in ohms. Frequency in Ghz. Make sure you select atleast one reactive element (in Z1 or Z2 or Z3) in order to view the curve. Otherwise the curve is going to be a Point if all are Resistive.</p>
+			</div> 
+		</div>
+		</li>
+		<li id="credit"><a href="#"><img id="im2" src="img/credit1.png" style="width: 50px;"></a>
+		<div class="two_column_layout">
+			<div class="col_2">
+				<h2>Credits</h2>
+				<p>Dr. S Raghavan, Professor, ECE Dept. NIT-Trichy</p>
+				<p>Mr. Steven Huettner, Microwaves101.com</p>
+			</div>
+		</div>
+		</li>
+		<li id="contact"><a href="#"><img id="im3" src="img/mail1.png" style="width: 50px;"></a>
+		<div class="one_column_layout">
+			<div class="col_1">
+				<h3>Contact</h3>
+				<p> bharathk005@gmail.com </p>
+			</div>
+		</div>
+		</li>
+	</ul>
+	
+</div>
+
+
+
+<ul id="outlist">
+
+<li><div id="outer">
+<ul>
+<li>
+<div id="val" >
+	<p style="background-color: yellow"></p>
+	<ul >
+		<li><p>r Value: </p></li>
+		<li><p id="rval">-</p></li>
+		<li><p style="margin-left: 10px;">i Value: </p></li>
+		<li><p id="ival">cursor out of plot</p></li>
+	</ul>
+	<div class="clear"></div>
+	<ul >
+		<li><button id="admittance">Admittance</button></li>
+		<li><button id="impedance">Impedance</button></li>
+		
+	</ul>
+</div>
+</li>
+<li><div class="clear"></div>-------------------------------------------------------------</li>
+<li>
+<div id="block2">
+	<ul>
+
+		<li><p>Z(Load) =  </p></li>
+		<li><input style="width: 70px;"type="number" id="zlr"></input></li>
+		<li><p>  + j  </p></li>
+		<li><input style="width: 70px;"type="number" id="zli"></></input></li>
+		<li><p>ohms</p></li>
+	</ul>
+	<div class="clear"></div>
+	<ul>
+		<li><p>Z0 = </p></li>
+		<li><input style="width: 75px;" type="number" id="z0"></></input></li>
+		<li><p>ohms</p></li>
+		<li><button id="calc">Calculate</button></li>
+		<li><button id="plot">Plot</button></li>
+	</ul>
+	<div class="clear"></div>
+	<ul>
+
+		<div class="clear"></div>
+		<li><p>VSWR = </p></li>
+		<li><p id="vswr">____ ;</p></li>
+	
+		<li><p>Ref. Coeff. = </p></li>
+		<li><p id="rcmag">_____</p></li>
+		<li><p>Mag.</p></li>
+		<li><p id="rcphase">_____</p></li>
+		<li><p>Phase</p></li>
+	</ul>
+
+</div>
+</li>
+<li><div class="clear"></div>-------------------------------------------------------------</li>
+
+
+</ul>
+
+</div></li>
+
+<li><div class="clear"></div></li>
+
+
+<li><div id="circuit">
+	<ul style="list-style: none;">
+	<li><p id="zinr" style="width: 60px;">Zin_r</p></li>
+
+	<li><input type="number" id="z1" style="width: 35px;"></li>
+	<li style="margin-top: 10px;">
+	<select id="z1s">
+		<option value="R">R(ohm)</option>
+		<option value="L">L(nH)</option>
+		<option value="C">C(pF)</option>
+	</select>
+	</li>
+	<li><input type="number" id="z2" style="width: 35px;"></li>
+	<li style="margin-top: 10px;">
+	<select id="z2s">
+		<option value="R">R(ohm)</option>
+		<option value="L">L(nH)</option>
+		<option value="C">C(pF)</option>
+	</select>
+	</li>
+	</ul>
+	<div class="clear">
+	<ul style="list-style: none;">
+	<li><p id="zini" style="width: 60px;">Zin_i </p></li>
+	<li><input type="number" id="z3" style="width: 35px;"></li>
+	<li style="margin-top: 20px;">
+	<select id="z3s">
+		<option value="R">R(ohm)</option>
+		<option value="L">L(nH)</option>
+		<option value="C">C(pF)</option>
+	</select>
+	</li>
+	<li><input type="number" id="loadr" style="width: 35px;"></li>
+	<li><p style="margin-top: 20px;margin-left: 5px;">+ j</p></li>
+	<li><input type="number" id="loadi" style="width: 35px;"></li>
+	</ul>
+
+
+</div></li>
+<div class="clear">
+<li id="calccircuit" style="float: left;">
+	<ul style="list-style: none;">
+	<li><p>Freq. =</p></li>
+	<li style="margin-top: 15px;"><input type="number" id="freq1" style="width: 45px;"></li>
+	<li><p>to</p></li>
+	<li style="margin-top: 15px;"><input type="number" id="freq2" style="width: 45px;"></li>
+	<li><p>GHz.</p></li>
+	
+	<li style="margin-top: 15px;"><button id="circ_plot">Plot</button></li>
+	<li>Normalization, Z0 =50ohms</li>
+	<li><div class="clear"></div>-------------------------------------------------------------</li>
+	</ul>
+	
+</li>
+
+
+</ul>
+
+
+
+
+</body>
+</html>
